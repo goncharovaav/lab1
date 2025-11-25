@@ -16,7 +16,20 @@ Including another URLconf
 """
 from django.urls import path
 from django.contrib import admin
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+# Добавьте URL соотношения, чтобы перенаправить запросы с корневого URL, на URL приложения
+
+urlpatterns += [
+    path('', RedirectView.as_view(url='/catalog/', permanent=True)),
+]
+
+# Используйте static() чтобы добавить соотношения для статических файлов
+# Только на период разработки
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
